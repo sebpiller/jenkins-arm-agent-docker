@@ -17,7 +17,7 @@ RUN \
     apt-get install -y --no-install-recommends --no-install-suggests \
       wget curl software-properties-common gnupg2 git \
       default-jdk-headless maven \
-#      npm nodejs \
+      npm nodejs \
       && \
 
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
