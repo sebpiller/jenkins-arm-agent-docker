@@ -8,6 +8,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/Jenkinsfile">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/README.md">
           <value>
             <set />
@@ -18,7 +23,27 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/jenkins-agent.sh">
+          <value>
+            <set />
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/multi-platform-build.sh">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../jenkins-arm-docker/Jenkinsfile">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../jenkins-server-arm-docker/Dockerfile">
+          <value>
+            <set />
+          </value>
+        </entry>
+        <entry key="$PROJECT_DIR$/../jenkins-server-arm-docker/Jenkinsfile">
           <value>
             <set />
           </value>

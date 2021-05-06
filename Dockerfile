@@ -7,9 +7,9 @@ ARG k3sversion=1.21.0%2Bk3s1
 ARG dockerrepo=https://download.docker.com/linux/ubuntu
 
 USER root
-ADD https://raw.githubusercontent.com/jenkinsci/docker-inbound-agent/master/jenkins-agent /default-entrypoint.sh
-RUN echo "service docker start" >> /default-entrypoint.sh && \
-    chmod +x /default-entrypoint.sh
+# ADD https://raw.githubusercontent.com/jenkinsci/docker-inbound-agent/master/jenkins-agent /default-entrypoint.sh
+COPY default-entrypoint.sh /default-entrypoint.sh
+RUN chmod +x /default-entrypoint.sh
 
 RUN \
     apt-get update && \
@@ -38,5 +38,8 @@ RUN \
     echo 'Done'
 
 VOLUME /root/.m2
+VOLUME /root/.kube
+VOLUME /root/.docker
+VOLUME /etc/docker/daemon.json
 
 ENTRYPOINT [ "/bin/sh", "-c", "/default-entrypoint.sh" ]
