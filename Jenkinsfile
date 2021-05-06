@@ -215,7 +215,7 @@ pipeline
                                                             echo env.DOCKER_TAG
 
                                                             if (env.BUILD_DOCKER == "true") {
-                                                                sh 'docker buildx build --platform linux/arm64,linux/arm/v7 --push -t sebpiller/jenkins-agent:latest -t sebpiller/jenkins-agent:${DOCKER_TAG} .'
+                                                                sh 'service docker start && docker buildx build --platform linux/arm64,linux/arm/v7 --push -t sebpiller/jenkins-agent:latest -t sebpiller/jenkins-agent:${DOCKER_TAG} .'
                                                             } else {
                                                                 echo "No docker push for this kind of branch: " + env.BRANCH_TYPE
                                                             }
