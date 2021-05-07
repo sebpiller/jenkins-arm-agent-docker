@@ -16,7 +16,7 @@ RUN \
     apt-get remove docker docker-engine docker.io containerd runc || \
     apt-get install -y --no-install-recommends --no-install-suggests \
       wget curl software-properties-common gnupg2 git \
-      default-jdk-headless maven \
+      openjdk-14-jdk-headless maven \
       npm nodejs \
       && \
 
