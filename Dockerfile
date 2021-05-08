@@ -15,7 +15,6 @@ ADD $jenkinsagent /usr/share/jenkins/agent.jar
 
 RUN \
     apt-get update && \
-    apt-get remove docker docker-engine docker.io containerd runc || \
     apt-get install -y --no-install-recommends --no-install-suggests \
       wget curl software-properties-common gnupg2 git \
       openjdk-11-jdk-headless maven \
