@@ -1,33 +1,31 @@
-FROM eryk81/jenkins-agent-arm64
+# FROM eryk81/jenkins-agent-arm64
+FROM debian:buster
 LABEL arch="arm|arm64"
 
 ARG k3sversion=1.21.0%2Bk3s1
 
-# ARG dockerrepo=http://nexus.home/repository/docker_buster/
-ARG dockerrepo=https://download.docker.com/linux/ubuntu
+ARG jenkinsagent=https://repo.jenkins-ci.org/releases/org/jenkins-ci/main/remoting/4.7/remoting-4.7.jar
+ARG dockerrepo=https://download.docker.com/linux/debian/
 
-USER root
 # ADD https://raw.githubusercontent.com/jenkinsci/docker-inbound-agent/master/jenkins-agent /default-entrypoint.sh
 COPY default-entrypoint.sh /default-entrypoint.sh
 RUN chmod +x /default-entrypoint.sh
+
+ADD $jenkinsagent /usr/share/jenkins/agent.jar
 
 RUN \
     apt-get update && \
     apt-get remove docker docker-engine docker.io containerd runc || \
     apt-get install -y --no-install-recommends --no-install-suggests \
       wget curl software-properties-common gnupg2 git \
-      openjdk-14-jdk-headless maven \
+      openjdk-11-jdk-headless maven \
       npm nodejs \
       && \
 
-    # change java_home & path
-    echo "\nexport JAVA_HOME=/usr/lib/jvm/java-14-openjdk-arm64\nexport PATH=$JAVA_HOME/bin:$PATH" >> /root/.bashrc && \
-
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
+    curl -fsSL --insecure $dockerrepo/gpg | apt-key add - && \
 
     REL=$(lsb_release -cs) && \
-    echo "deb [arch=arm64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] $dockerrepo $REL stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null && \
-
+    add-apt-repository "deb $dockerrepo $REL stable" && \
     apt-get update -y && \
     apt-get install -y --no-install-recommends --no-install-suggests \
       docker-ce docker-ce-cli containerd.io && \

@@ -48,6 +48,11 @@
             <set />
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/../spidybox/kubernetes/06-jenkins.yaml">
+          <value>
+            <set />
+          </value>
+        </entry>
       </map>
     </option>
   </component>
