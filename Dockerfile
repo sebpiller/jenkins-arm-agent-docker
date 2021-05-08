@@ -2,9 +2,10 @@
 FROM debian:buster
 LABEL arch="arm|arm64"
 
+ARG remotingversion=4.7
 ARG k3sversion=1.21.0%2Bk3s1
 
-ARG jenkinsagent=https://repo.jenkins-ci.org/releases/org/jenkins-ci/main/remoting/4.7/remoting-4.7.jar
+ARG jenkinsagent=https://repo.jenkins-ci.org/releases/org/jenkins-ci/main/remoting/$remotingversion/remoting-$remotingversion.jar
 ARG dockerrepo=https://download.docker.com/linux/debian
 
 # ADD https://raw.githubusercontent.com/jenkinsci/docker-inbound-agent/master/jenkins-agent /default-entrypoint.sh
@@ -16,7 +17,8 @@ ADD $jenkinsagent /usr/share/jenkins/agent.jar
 RUN \
     apt-get update && \
     apt-get install -y --no-install-recommends --no-install-suggests \
-      wget curl software-properties-common gnupg2 git \
+      wget curl software-properties-common gnupg2 \
+      git \
       openjdk-11-jdk-headless maven \
       npm nodejs \
       && \
