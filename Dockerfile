@@ -20,6 +20,9 @@ RUN \
       npm nodejs \
       && \
 
+    # change java_home & path
+    echo "\nexport JAVA_HOME=/usr/lib/jvm/java-14-openjdk-arm64\nexport PATH=$JAVA_HOME/bin:$PATH" >> /root/.bashrc && \
+
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
 
     REL=$(lsb_release -cs) && \
