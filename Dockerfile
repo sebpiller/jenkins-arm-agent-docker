@@ -5,7 +5,7 @@ LABEL arch="arm|arm64"
 ARG k3sversion=1.21.0%2Bk3s1
 
 ARG jenkinsagent=https://repo.jenkins-ci.org/releases/org/jenkins-ci/main/remoting/4.7/remoting-4.7.jar
-ARG dockerrepo=https://download.docker.com/linux/debian/
+ARG dockerrepo=https://download.docker.com/linux/debian
 
 # ADD https://raw.githubusercontent.com/jenkinsci/docker-inbound-agent/master/jenkins-agent /default-entrypoint.sh
 COPY default-entrypoint.sh /default-entrypoint.sh
