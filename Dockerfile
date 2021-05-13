@@ -1,30 +1,32 @@
-FROM eryk81/jenkins-agent-arm64
+# FROM eryk81/jenkins-agent-arm64
+FROM debian:buster
 LABEL arch="arm|arm64"
 
+ARG remotingversion=4.8
 ARG k3sversion=1.21.0%2Bk3s1
 
-# ARG dockerrepo=http://nexus.home/repository/docker_buster/
-ARG dockerrepo=https://download.docker.com/linux/ubuntu
+ARG jenkinsagent=https://repo.jenkins-ci.org/releases/org/jenkins-ci/main/remoting/$remotingversion/remoting-$remotingversion.jar
+ARG dockerrepo=https://download.docker.com/linux/debian
 
-USER root
-ADD https://raw.githubusercontent.com/jenkinsci/docker-inbound-agent/master/jenkins-agent /default-entrypoint.sh
-RUN echo "service docker start" >> /default-entrypoint.sh && \
-    chmod +x /default-entrypoint.sh
+# ADD https://raw.githubusercontent.com/jenkinsci/docker-inbound-agent/master/jenkins-agent /default-entrypoint.sh
+COPY default-entrypoint.sh /default-entrypoint.sh
+RUN chmod +x /default-entrypoint.sh
+
+ADD $jenkinsagent /usr/share/jenkins/agent.jar
 
 RUN \
     apt-get update && \
-    apt-get remove docker docker-engine docker.io containerd runc || \
     apt-get install -y --no-install-recommends --no-install-suggests \
-      wget curl software-properties-common gnupg2 git \
-      default-jdk-headless maven \
-#      npm nodejs \
+      wget curl software-properties-common gnupg2 \
+      git \
+      openjdk-11-jdk-headless maven \
+      npm nodejs \
       && \
 
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
+    curl -fsSL --insecure $dockerrepo/gpg | apt-key add - && \
 
     REL=$(lsb_release -cs) && \
-    echo "deb [arch=arm64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] $dockerrepo $REL stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null && \
-
+    add-apt-repository "deb $dockerrepo $REL stable" && \
     apt-get update -y && \
     apt-get install -y --no-install-recommends --no-install-suggests \
       docker-ce docker-ce-cli containerd.io && \
@@ -38,5 +40,8 @@ RUN \
     echo 'Done'
 
 VOLUME /root/.m2
+VOLUME /root/.kube
+VOLUME /root/.docker
+VOLUME /etc/docker/daemon.json
 
 ENTRYPOINT [ "/bin/sh", "-c", "/default-entrypoint.sh" ]
