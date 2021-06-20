@@ -2,8 +2,8 @@
 FROM debian:buster
 LABEL arch="arm|arm64"
 
-ARG remotingversion=4.8
-ARG k3sversion=1.21.0%2Bk3s1
+ARG remotingversion=4.9
+ARG k3sversion=1.21.1%2Bk3s1
 
 ARG jenkinsagent=https://repo.jenkins-ci.org/releases/org/jenkins-ci/main/remoting/$remotingversion/remoting-$remotingversion.jar
 ARG dockerrepo=https://download.docker.com/linux/debian
